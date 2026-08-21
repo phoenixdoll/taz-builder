@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terror AustraliZ Season 0 Build Planner</title>
+<meta name="description" content="Plan a character build for Terror AustraliZ Season 0 across vanilla Project Zomboid Build 42, Jack of Some Trades, and Somewhat Traits, and see the resulting trade-skill caps and starting levels.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:wght@600;800&family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#EDE8DC; --card:#F8F4E9; --card-2:#F1ECDD; --line:#C7BEA6;
+  --ink:#2A2620; --ink-dim:#6B6252; --ink-faint:#95897A;
+  --olive:#55613B; --olive-ink:#3C4529; --olive-tint:#E3E6D4;
+  --rust:#A8441F; --rust-ink:#7C3216; --rust-tint:#F1DCCF;
+  --focus:#3D5A6C;
+  --shadow: 0 1px 2px rgba(42,38,32,.08), 0 4px 14px rgba(42,38,32,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#17180F; --card:#202216; --card-2:#262819; --line:#3A3B29;
+    --ink:#E9E4D3; --ink-dim:#A79C82; --ink-faint:#736A57;
+    --olive:#8FA35E; --olive-ink:#C7D6A3; --olive-tint:#2C331E;
+    --rust:#E08052; --rust-ink:#F3B492; --rust-tint:#3A2417;
+    --focus:#7FA3B8;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 20px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#17180F; --card:#202216; --card-2:#262819; --line:#3A3B29;
+  --ink:#E9E4D3; --ink-dim:#A79C82; --ink-faint:#736A57;
+  --olive:#8FA35E; --olive-ink:#C7D6A3; --olive-tint:#2C331E;
+  --rust:#E08052; --rust-ink:#F3B492; --rust-tint:#3A2417;
+  --focus:#7FA3B8;
+  --shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 20px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans Condensed", "Segoe UI Condensed", sans-serif;
+  font-size:15px; line-height:1.45;
+}
+h1,h2,h3,.stencil{
+  font-family:"Big Shoulders Stencil","Arial Narrow",sans-serif;
+  font-weight:800; text-transform:uppercase; letter-spacing:.03em;
+  text-wrap:balance; margin:0;
+}
+.mono{ font-family:"IBM Plex Mono","Consolas",monospace; font-variant-numeric:tabular-nums; }
+button{ font-family:inherit; }
+a{ color:var(--focus); }
+
+.wrap{ max-width:1280px; margin:0 auto; padding:28px 20px 80px; }
+
+/* ---------- masthead ---------- */
+.masthead{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:24px;
+  border-bottom:3px solid var(--ink); padding-bottom:16px; margin-bottom:22px;
+  flex-wrap:wrap;
+}
+.masthead .title-block{ max-width:640px; }
+.masthead h1{ font-size:clamp(28px,4vw,42px); line-height:1; }
+.masthead p{ margin:8px 0 0; color:var(--ink-dim); font-size:14.5px; max-width:56ch; }
+.masthead .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+.tag{
+  font-family:"Big Shoulders Stencil",sans-serif; font-weight:600; font-size:12px;
+  letter-spacing:.08em; text-transform:uppercase; padding:3px 9px;
+  border:1.5px solid var(--ink); border-radius:2px; color:var(--ink-dim);
+}
+.theme-toggle{
+  display:flex; gap:2px; border:1.5px solid var(--ink); border-radius:3px; overflow:hidden;
+  height:fit-content;
+}
+.theme-toggle button{
+  background:var(--card); color:var(--ink-dim); border:none; padding:6px 11px;
+  font-size:12px; letter-spacing:.06em; text-transform:uppercase; cursor:pointer;
+  font-family:"Big Shoulders Stencil",sans-serif; font-weight:600;
+}
+.theme-toggle button.active{ background:var(--ink); color:var(--paper); }
+
+/* ---------- layout ---------- */
+.layout{ display:grid; grid-template-columns:340px 1fr; gap:24px; align-items:start; }
+@media (max-width:920px){ .layout{ grid-template-columns:1fr; } }
+
+.sidebar{ position:sticky; top:16px; display:flex; flex-direction:column; gap:16px; }
+@media (max-width:920px){ .sidebar{ position:static; } }
+
+.panel{
+  background:var(--card); border:1px solid var(--line); border-radius:6px;
+  box-shadow:var(--shadow); padding:16px;
+}
+.panel h2{ font-size:17px; margin-bottom:10px; }
+.panel h2 small{
+  display:block; font-family:"IBM Plex Sans Condensed",sans-serif; font-weight:500;
+  text-transform:none; letter-spacing:0; font-size:12px; color:var(--ink-faint); margin-top:2px;
+}
+
+/* budget */
+.budget-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+.budget-row label{ font-size:12.5px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.05em; }
+.budget-row input[type=number]{
+  width:64px; background:var(--card-2); border:1px solid var(--line); color:var(--ink);
+  border-radius:4px; padding:5px 6px; font:inherit; font-family:"IBM Plex Mono",monospace; text-align:right;
+}
+.budget-bar{ height:10px; border-radius:5px; background:var(--card-2); border:1px solid var(--line); overflow:hidden; position:relative; }
+.budget-bar > i{ display:block; height:100%; background:var(--olive); transition:width .18s ease; }
+.budget-bar.over > i{ background:var(--rust); }
+.budget-readout{ display:flex; justify-content:space-between; margin-top:6px; font-family:"IBM Plex Mono",monospace; font-size:13px; }
+.budget-readout .remaining{ font-weight:600; }
+.budget-readout .remaining.neg{ color:var(--rust); }
+.budget-readout .remaining.pos{ color:var(--olive-ink); }
+
+/* profession select */
+select.prof-select{
+  width:100%; background:var(--card-2); border:1px solid var(--line); color:var(--ink);
+  padding:8px 9px; border-radius:4px; font:inherit; font-size:14.5px; margin-bottom:8px;
+}
+.prof-desc{ font-size:13px; color:var(--ink-dim); min-height:34px; }
+.prof-xp{ display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.xp-chip{
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; padding:2px 6px; border-radius:3px;
+  background:var(--card-2); border:1px solid var(--line); color:var(--ink-dim);
+}
+
+/* results table */
+.results-group{ margin-bottom:4px; }
+.results-group h3{
+  font-size:12px; color:var(--ink-faint); letter-spacing:.1em; margin:12px 0 4px;
+  border-bottom:1px dashed var(--line); padding-bottom:3px;
+}
+.results-group:first-of-type h3{ margin-top:0; }
+table.results{ width:100%; border-collapse:collapse; font-size:13px; }
+table.results th{
+  text-align:left; font-weight:500; color:var(--ink-faint); font-size:11px;
+  text-transform:uppercase; letter-spacing:.05em; padding:2px 4px;
+}
+table.results th.num, table.results td.num{ text-align:right; }
+table.results td{ padding:3px 4px; border-top:1px solid var(--card-2); }
+table.results tr.has-pips td{ color:var(--ink); }
+table.results tr:not(.has-pips) td{ color:var(--ink-faint); }
+td.pips{ font-family:"IBM Plex Mono",monospace; }
+td.cap{ font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--olive-ink); }
+td.cap .link{ color:var(--focus); font-size:10.5px; font-weight:400; margin-left:2px; }
+td.lvl{ font-family:"IBM Plex Mono",monospace; }
+
+/* training pick summary line */
+.training-readout{ font-size:13px; color:var(--ink-dim); margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); }
+.training-readout b{ color:var(--ink); }
+
+/* ---------- main / picker ---------- */
+.main{ display:flex; flex-direction:column; gap:22px; }
+.section{ }
+.section-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
+.section-head h2{ font-size:20px; }
+.section-head .count{ font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink-faint); }
+.section-note{ font-size:12.5px; color:var(--ink-faint); margin:-4px 0 10px; max-width:70ch; }
+
+.grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px; }
+
+.card{
+  position:relative; text-align:left; cursor:pointer; border-radius:5px;
+  border:1.5px solid var(--line); background:var(--card); padding:10px 11px 9px;
+  transition:transform .12s ease, border-color .12s ease, background .12s ease;
+  display:flex; flex-direction:column; gap:5px; min-height:88px;
+}
+.card:hover:not(.disabled){ transform:translateY(-2px); border-color:var(--ink-faint); box-shadow:var(--shadow); }
+.card:focus-visible{ outline:2.5px solid var(--focus); outline-offset:2px; }
+.card .head{ display:flex; justify-content:space-between; align-items:flex-start; gap:6px; }
+.card .name{ font-weight:600; font-size:14px; line-height:1.2; }
+.card .cost{
+  font-family:"IBM Plex Mono",monospace; font-size:12.5px; font-weight:600;
+  padding:1px 6px; border-radius:3px; white-space:nowrap; flex:none;
+}
+.cost.pos{ background:var(--olive-tint); color:var(--olive-ink); }
+.cost.neg{ background:var(--rust-tint); color:var(--rust-ink); }
+.cost.zero{ background:var(--card-2); color:var(--ink-faint); }
+.card .src-tag{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--ink-faint); border:1px solid var(--line); border-radius:2px; padding:0 4px; align-self:flex-start;
+}
+.card .src-tag.jost{ color:var(--focus); border-color:var(--focus); }
+.card .desc{ font-size:12px; color:var(--ink-dim); flex:1; }
+.card .xp{ display:flex; flex-wrap:wrap; gap:4px; }
+.card .xp span{ font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-faint); background:var(--card-2); border-radius:2px; padding:1px 4px; }
+
+.card.selected{ background:var(--olive-tint); border-color:var(--olive); }
+.card.selected.neg-cost{ background:var(--rust-tint); border-color:var(--rust); }
+.card.selected .name{ color:var(--ink); }
+.card.selected::after{
+  content:"✓"; position:absolute; top:-8px; right:-8px; width:20px; height:20px;
+  border-radius:50%; background:var(--olive); color:var(--card); font-size:12px; font-weight:700;
+  display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow);
+}
+.card.selected.neg-cost::after{ background:var(--rust); }
+
+.card.disabled{ opacity:.42; cursor:not-allowed; }
+.card .reason{
+  font-size:10.5px; color:var(--rust-ink); font-family:"IBM Plex Mono",monospace;
+  min-height:1.2em;
+}
+
+.card.granted{
+  border-style:dashed; opacity:.7; cursor:default;
+}
+.card.granted::after{ content:"⚑"; background:var(--card-2); color:var(--ink-faint); }
+
+@media (prefers-reduced-motion:reduce){ .card{ transition:none; } }
+
+footer{ margin-top:36px; padding-top:14px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-faint); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="title-block">
+      <h1>Terror AustraliZ Season 0 Build Planner</h1>
+      <p>Pick a profession and traits exactly as you would at character creation — vanilla Build 42, <b style="color:var(--ink)">Jack of Some Trades</b>, and <b style="color:var(--ink)">Somewhat Traits</b> combined — and see the trade-skill caps and starting levels you'd actually spawn with.</p>
+      <div class="tags">
+        <span class="tag">Vanilla B42</span>
+        <span class="tag">JOST 0.2.2</span>
+        <span class="tag">Somewhat Traits</span>
+      </div>
+    </div>
+    <div class="theme-toggle" id="themeToggle">
+      <button data-t="light">Light</button>
+      <button data-t="system" class="active">Auto</button>
+      <button data-t="dark">Dark</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- ============ SIDEBAR ============ -->
+    <div class="sidebar">
+
+      <div class="panel">
+        <h2>Profession</h2>
+        <select class="prof-select" id="profSelect"></select>
+        <div class="prof-desc" id="profDesc"></div>
+        <div class="prof-xp" id="profXp"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Trait Points<small>Free Trait Points sandbox setting — the profession's own cost is added on top.</small></h2>
+        <div class="budget-row">
+          <label for="budgetInput">Free Points</label>
+          <input type="number" id="budgetInput" value="16" min="0" max="200">
+        </div>
+        <div class="budget-bar" id="budgetBar"><i style="width:0%"></i></div>
+        <div class="budget-readout">
+          <span>Spent <b class="mono" id="spentOut">0 / 16</b></span>
+          <span class="remaining pos mono" id="remainOut">16 left</span>
+        </div>
+        <div class="training-readout" id="trainingReadout">No training trait selected — default starting-level table applies.</div>
+      </div>
+
+      <div class="panel">
+        <h2>Trade Skills<small>Pips → cap and starting level, per JOST's tables.</small></h2>
+        <div id="resultsWrap"></div>
+      </div>
+
+    </div>
+
+    <!-- ============ MAIN PICKER ============ -->
+    <div class="main">
+
+      <div class="section" id="sec-pos">
+        <div class="section-head"><h2>Positive Traits</h2><span class="count" id="cnt-pos"></span></div>
+        <div class="section-note">Vanilla, JOST training, and Somewhat Traits are mixed together — check each card's tag for its source. JOST's training traits govern how much of your skill cap you start with (never the cap itself); the four are mutually exclusive with each other.</div>
+        <div class="grid" id="grid-pos"></div>
+      </div>
+
+      <div class="section" id="sec-neg">
+        <div class="section-head"><h2>Negative Traits</h2><span class="count" id="cnt-neg"></span></div>
+        <div class="section-note">Negative traits refund points to your budget.</div>
+        <div class="grid" id="grid-neg"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    Trait, profession, and cost data read from the installed game's vanilla scripts and the JOST / Somewhat Traits mod files. The point pool follows vanilla's real formula: Free Trait Points (a sandbox setting, "CharacterFreePoints") plus the chosen profession's own cost — professions add to or subtract from the pool directly, they aren't "spent" the way traits are. This omits the vanilla NegativeTraitsPenalty offset (a minor sandbox option limiting free points from negative traits when disabled — on by default). Somewhat Traits' effects (moodle/action changes) aren't modeled numerically here — only its point cost and mutual exclusions with vanilla, where the mods currently define any. If a server tunes JOST's sandbox numbers away from its defaults, the caps/levels shown here won't match.
+  </footer>
+</div>
+
+<script>
+/* ================= DATA ================= */
+
+// Perk id -> the display name JOST / the in-game skill panel actually uses.
+const PERK_DISPLAY = {
+  Farming:"Agriculture", Husbandry:"Animal Care", Butchering:"Butchering",
+  Woodwork:"Carpentry", Blacksmith:"Blacksmithing", Carving:"Carving",
+  Cooking:"Cooking", Electricity:"Electrical", Glassmaking:"Glassmaking",
+  FlintKnapping:"Knapping", Masonry:"Masonry", Pottery:"Pottery",
+  Tailoring:"Tailoring", MetalWelding:"Welding", Mechanics:"Mechanics",
+  Maintenance:"Maintenance", Doctor:"First Aid", Fishing:"Fishing",
+  PlantScavenging:"Foraging", Tracking:"Tracking", Trapping:"Trapping",
+};
+function skillLabel(id){ return PERK_DISPLAY[id] || id; }
+
+const TRADE_GROUPS = [
+  { label:"Farming",  perks:["Farming","Husbandry","Butchering"] },
+  { label:"Crafting", perks:["Woodwork","Blacksmith","Carving","Cooking","Electricity","Glassmaking","FlintKnapping","Masonry","Pottery","Tailoring","MetalWelding","Mechanics","Maintenance"] },
+  { label:"Survival", perks:["Doctor","Fishing","PlantScavenging","Tracking","Trapping"] },
+];
+
+const LINKED_PAIRS = [
+  ["MetalWelding","Blacksmith"],["Blacksmith","Glassmaking"],["Masonry","Pottery"],
+  ["Tailoring","Blacksmith"],["Tailoring","Carving"],["Woodwork","Carving"],
+  ["Electricity","Mechanics"],["Cooking","Butchering"],["Doctor","Tailoring"],
+  ["Butchering","Fishing"],["PlantScavenging","Tracking"],["Trapping","PlantScavenging"],
+  ["Trapping","Tracking"],["Farming","Husbandry"],["Butchering","Husbandry"],
+  ["Cooking","Doctor"],["Cooking","Fishing"],["PlantScavenging","Farming"],
+  ["FlintKnapping","Carving"],["FlintKnapping","Trapping"],["Masonry","Woodwork"],
+  ["Glassmaking","Pottery"],["Mechanics","MetalWelding"],["Electricity","Woodwork"],
+  ["Electricity","MetalWelding"],["FlintKnapping","Masonry"],["Mechanics","Farming"],
+  ["Doctor","Husbandry"],["Fishing","Tracking"],["Glassmaking","Farming"],
+  ["Pottery","Husbandry"],["Maintenance","Woodwork"],["Maintenance","MetalWelding"],
+  ["Maintenance","Blacksmith"],["Maintenance","Tailoring"],["Maintenance","Carving"],
+];
+const LINKS = {};
+TRADE_GROUPS.forEach(g=>g.perks.forEach(p=>LINKS[p]=[]));
+LINKED_PAIRS.forEach(([a,b])=>{ LINKS[a].push(b); LINKS[b].push(a); });
+
+// JOST formulas (mod defaults; a server that retunes its sandbox will drift from these)
+function baseCap(pips){
+  if(pips>=4) return 10;
+  return [3,5,7,9][pips] ?? 3;
+}
+function startLevel(pips, mode){
+  if(mode==="none") return 0;
+  if(mode==="half") return Math.floor(pips/2);
+  if(mode==="normal") return pips;
+  if(mode==="boosted"){ if(pips>=4) return 9; return [0,3,5,7][pips] ?? 0; }
+  if(pips>=4) return 7; return [0,2,4,6][pips] ?? 0; // default (no training trait)
+}
+
+// ---- Hidden vanilla traits: cost-0, granted only, never manually pickable ----
+const HIDDEN_TRAITS = {
+  "axeman":{name:"Ax-pert"}, "blacksmith2":{name:"Blacksmith Knowledge"},
+  "burglar_t":{name:"Burglar"}, "cook2":{name:"Keen Cook"}, "desensitized":{name:"Desensitized"},
+  "herbalist_prof":{name:"Herbalist", xp:{PlantScavenging:1}}, "inventive_prof":{name:"Inventive"},
+  "marksman":{name:"Marksman"}, "mechanics2":{name:"Vehicle Knowledge"}, "nightowl":{name:"Night Owl"},
+  "nutritionist2":{name:"Nutritionist"}, "overweight":{name:"High Weight", xp:{Fitness:-1}},
+  "underweight":{name:"Low Weight", xp:{Fitness:-1}},
+};
+
+// ---- Vanilla professions ----
+const PROFESSIONS = [
+  {id:"unemployed", name:"Custom Occupation", cost:8, desc:"Use free trait points to make a custom build for your character.", xp:{}},
+  {id:"burglar", name:"Burglar", cost:-6, desc:"Can hotwire vehicles. Less chance of breaking window locks.", xp:{Nimble:2,Sneak:2,Lightfoot:2}, grants:["burglar_t"]},
+  {id:"burgerflipper", name:"Burger Flipper", cost:2, desc:"", xp:{Cooking:2,Maintenance:1,SmallBlade:1}, grants:["cook2"]},
+  {id:"carpenter", name:"Carpenter", cost:-2, desc:"", xp:{Woodwork:4,Carving:1,SmallBlunt:1,Masonry:1,Maintenance:1}},
+  {id:"chef", name:"Chef", cost:-2, desc:"", xp:{Cooking:4,Maintenance:1,SmallBlade:1,Butchering:2}, grants:["cook2"]},
+  {id:"constructionworker", name:"Construction Worker", cost:-2, desc:"", xp:{SmallBlunt:2,Blunt:1,Masonry:2,Woodwork:1,Maintenance:1}},
+  {id:"doctor", name:"Doctor", cost:0, desc:"", xp:{Doctor:6,SmallBlade:1}},
+  {id:"electrician", name:"Electrician", cost:-2, desc:"Can operate generators.", xp:{Electricity:5}},
+  {id:"engineer", name:"Engineer", cost:-4, desc:"Can make traps and explosives. Can operate generators.", xp:{Electricity:1,Woodwork:1,Masonry:1}},
+  {id:"farmer", name:"Farmer", cost:0, desc:"", xp:{Farming:4,Husbandry:1,Strength:1}},
+  {id:"fireofficer", name:"Firefighter", cost:0, desc:"", xp:{Sprinting:1,Strength:1,Fitness:1,Axe:1}},
+  {id:"fisherman", name:"Fishing Guide", cost:-2, desc:"", xp:{Fishing:3,PlantScavenging:1,Butchering:1}},
+  {id:"fitnessinstructor", name:"Fitness Instructor", cost:-6, desc:"", xp:{Fitness:3,Sprinting:2,Strength:1}, grants:["nutritionist2"]},
+  {id:"lumberjack", name:"Lumberjack", cost:0, desc:"Slightly faster movement through forests and woodland. Less muscle strain from chopping trees.", xp:{Axe:2,Strength:1,Maintenance:1}, grants:["axeman"]},
+  {id:"mechanics_prof", name:"Mechanic", cost:-4, desc:"Familiar with the maintenance and repair of all vehicle models on the roads of Kentucky.", xp:{Mechanics:4,MetalWelding:1}, grants:["mechanics2"]},
+  {id:"metalworker", name:"Welder", cost:-4, desc:"Can weld foraged metal to create items and barricades.", xp:{MetalWelding:4}},
+  {id:"nurse", name:"Nurse", cost:0, desc:"", xp:{Doctor:3,Lightfoot:1,Fitness:1}, grants:["nightowl"]},
+  {id:"parkranger", name:"Park Ranger", cost:-4, desc:"Much faster movement through forests and woodland.", xp:{Trapping:1,Doctor:1,PlantScavenging:1,FlintKnapping:1,Carving:1}, grants:["herbalist_prof"]},
+  {id:"policeofficer", name:"Police Officer", cost:-4, desc:"", xp:{Aiming:4,Reloading:1,Nimble:1}},
+  {id:"rancher", name:"Rancher", cost:0, desc:"", xp:{Husbandry:4,Butchering:3,Fitness:1}},
+  {id:"repairman", name:"DIY Expert", cost:-2, desc:"", xp:{Woodwork:1,Maintenance:2,SmallBlunt:1,Masonry:1}, grants:["inventive_prof"]},
+  {id:"securityguard", name:"Security Guard", cost:-2, desc:"", xp:{Sprinting:2,Lightfoot:1,SmallBlunt:1}, grants:["nightowl"]},
+  {id:"smither", name:"Blacksmith", cost:-6, desc:"Can build a stone furnace and work metal.", xp:{Blacksmith:4,Maintenance:1,SmallBlunt:1}, grants:["blacksmith2"]},
+  {id:"tailor_prof", name:"Tailor", cost:2, desc:"", xp:{Tailoring:4}},
+  {id:"veteran", name:"Veteran", cost:-8, desc:"", xp:{Aiming:2,Reloading:2}, grants:["desensitized"]},
+];
+
+// ---- Vanilla traits (buyable only — profession-badge traits are hidden above) ----
+const VANILLA_TRAITS = [
+  // positive
+  {id:"adrenalinejunkie", name:"Adrenaline Junkie", cost:4, desc:"Moves faster when highly panicked.", excl:["agoraphobic","claustrophobic","cowardly","desensitized"]},
+  {id:"artisan", name:"Artisan", cost:2, desc:"Better at pottery and glass crafts.", xp:{Glassmaking:1,Pottery:1}},
+  {id:"athletic", name:"Athletic", cost:10, desc:"Faster running speed. Can run for longer without tiring.", xp:{Fitness:4}, excl:["overweight","fit","obese","outofshape","unfit","veryunderweight","smoker"]},
+  {id:"baseballplayer", name:"Baseball Player", cost:4, desc:"", xp:{Blunt:1}},
+  {id:"blacksmith", name:"Blacksmith Knowledge", cost:6, desc:"Can use an anvil to create metal items.", xp:{Blacksmith:2,Maintenance:1}, excl:["blacksmith2"]},
+  {id:"brave", name:"Brave", cost:4, desc:"Less prone to becoming panicked.", excl:["cowardly","agoraphobic","claustrophobic","desensitized"]},
+  {id:"brawler", name:"Brawler", cost:6, desc:"", xp:{Axe:1,Blunt:1}},
+  {id:"cook", name:"Keen Cook", cost:3, desc:"Knows cooking recipes.", xp:{Cooking:2,Butchering:1}, excl:["cook2"]},
+  {id:"crafty", name:"Crafty", cost:3, desc:"Increased XP gains for Crafting skills.", excl:["fastlearner","slowlearner"]},
+  {id:"dextrous", name:"Dextrous", cost:2, desc:"Transfers inventory items quickly.", excl:["allthumbs"]},
+  {id:"eagleeyed", name:"Eagle Eyed", cost:4, desc:"Faster visibility fade. Weapon sights more effective at range.", excl:["shortsighted"]},
+  {id:"fasthealer", name:"Fast Healer", cost:6, desc:"Recovers quickly from injuries and illness.", excl:["slowhealer"]},
+  {id:"fastlearner", name:"Fast Learner", cost:6, desc:"Increased XP gains.", excl:["crafty","slowlearner"]},
+  {id:"fastreader", name:"Fast Reader", cost:2, desc:"Takes less time to read books.", excl:["slowreader","illiterate"]},
+  {id:"firstaid", name:"First Aider", cost:2, desc:"", xp:{Doctor:1}},
+  {id:"fishing", name:"Angler", cost:4, desc:"", xp:{Fishing:1}},
+  {id:"fit", name:"Fit", cost:6, desc:"", xp:{Fitness:2}, excl:["athletic","obese","outofshape","overweight","unfit"]},
+  {id:"gardener", name:"Gardener", cost:2, desc:"", xp:{Farming:1}},
+  {id:"graceful", name:"Graceful", cost:4, desc:"Makes less noise when moving.", excl:["clumsy"]},
+  {id:"gymnast", name:"Gymnast", cost:5, desc:"", xp:{Lightfoot:1,Nimble:1}},
+  {id:"handy", name:"Handy", cost:8, desc:"Faster and stronger constructions.", xp:{Carving:1,Maintenance:1,Masonry:1,Woodwork:1}},
+  {id:"herbalist", name:"Herbalist", cost:4, desc:"Can find and craft medicines from medicinal herbs.", xp:{PlantScavenging:1}, excl:["herbalist_prof"]},
+  {id:"hiker", name:"Hiker", cost:5, desc:"", xp:{PlantScavenging:1,Trapping:1}},
+  {id:"hunter", name:"Hunter", cost:8, desc:"", xp:{Aiming:1,Tracking:1,Sneak:1,SmallBlade:1,Butchering:1}},
+  {id:"tinkerer", name:"Tinkerer", cost:4, desc:"", xp:{Maintenance:1}},
+  {id:"target_shooter", name:"Target Shooter", cost:5, desc:"", xp:{Aiming:1}},
+  {id:"inconspicuous", name:"Inconspicuous", cost:4, desc:"Less likely to be spotted by zombies.", excl:["conspicuous"]},
+  {id:"inventive", name:"Inventive", cost:2, desc:"Lower skill requirements to research recipes from items.", excl:["inventive_prof"]},
+  {id:"irongut", name:"Iron Gut", cost:2, desc:"Less chance to have food illness.", excl:["weakstomach"]},
+  {id:"jogger", name:"Runner", cost:4, desc:"", xp:{Sprinting:1}},
+  {id:"keenhearing", name:"Keen Hearing", cost:6, desc:"Larger perception radius.", excl:["deaf","hardofhearing"]},
+  {id:"lighteater", name:"Light Eater", cost:2, desc:"Needs to eat less regularly.", excl:["heartyappetite","obese"]},
+  {id:"lowthirst", name:"Low Thirst", cost:2, desc:"Needs less water to survive.", excl:["highthirst"]},
+  {id:"mason", name:"Mason", cost:2, desc:"", xp:{Masonry:2}},
+  {id:"mechanics", name:"Vehicle Knowledge", cost:3, desc:"Has knowledge of vehicle models and repairs.", xp:{Mechanics:1}, excl:["mechanics2"]},
+  {id:"needslesssleep", name:"Wakeful", cost:3, desc:"Needs less sleep.", excl:["needsmoresleep"]},
+  {id:"nightvision", name:"Cat's Eyes", cost:3, desc:"Better vision at night."},
+  {id:"nutritionist", name:"Nutritionist", cost:2, desc:"Can see the nutritional values of any food.", excl:["nutritionist2"]},
+  {id:"organized", name:"Organized", cost:4, desc:"Increased container inventory capacity.", excl:["disorganized"]},
+  {id:"resilient", name:"Resilient", cost:4, desc:"Less prone to disease. Slower rate of zombification.", excl:["pronetoillness"]},
+  {id:"formerscout", name:"Former Scout", cost:6, desc:"Start fires faster.", xp:{Doctor:1,PlantScavenging:1,Fishing:1}},
+  {id:"speeddemon", name:"Speed Demon", cost:1, desc:"Drives very fast.", excl:["sundaydriver"]},
+  {id:"stout", name:"Stout", cost:6, desc:"Extra knockback. Increased carrying weight.", xp:{Strength:2}, excl:["feeble","strong","weak"]},
+  {id:"strong", name:"Strong", cost:10, desc:"Extra knockback. Increased carrying weight.", xp:{Strength:4}, excl:["feeble","stout","weak"]},
+  {id:"tailor", name:"Sewer", cost:4, desc:"", xp:{Tailoring:1}},
+  {id:"thickskinned", name:"Thick-skinned", cost:8, desc:"Lower chance of being scratched or bitten."},
+  {id:"whittler", name:"Whittler", cost:2, desc:"Can carve wood and bone items.", xp:{Carving:2}},
+  {id:"wildernessknowledge", name:"Bushcrafter", cost:8, desc:"Herbal medicine, simple stone/bone tools, faster fires.", xp:{PlantScavenging:1,FlintKnapping:1,Maintenance:1,Carving:1}},
+  // negative
+  {id:"agoraphobic", name:"Agoraphobic", cost:-4, desc:"Gets panicked when outdoors.", excl:["adrenalinejunkie","brave","desensitized","claustrophobic"]},
+  {id:"allthumbs", name:"All Thumbs", cost:-2, desc:"Transfers items slowly. Can't craft while walking.", excl:["dextrous"]},
+  {id:"asthmatic", name:"Short of Breath", cost:-5, desc:"Faster endurance loss."},
+  {id:"claustrophobic", name:"Claustrophobic", cost:-4, desc:"Gets panicked in small indoor rooms.", excl:["adrenalinejunkie","agoraphobic","brave","desensitized"]},
+  {id:"clumsy", name:"Clumsy", cost:-2, desc:"Makes more noise when moving.", excl:["graceful"]},
+  {id:"conspicuous", name:"Conspicuous", cost:-4, desc:"More likely to be spotted by zombies.", excl:["inconspicuous"]},
+  {id:"cowardly", name:"Cowardly", cost:-2, desc:"Especially prone to becoming panicked.", excl:["adrenalinejunkie","brave","desensitized"]},
+  {id:"deaf", name:"Deaf", cost:-12, desc:"Can't hear sound.", excl:["hardofhearing","keenhearing"]},
+  {id:"disorganized", name:"Disorganized", cost:-6, desc:"Decreased container inventory capacity.", excl:["organized"]},
+  {id:"feeble", name:"Weak", cost:-6, desc:"Less knockback. Decreased carrying weight.", xp:{Strength:-2}, excl:["stout","strong","weak"]},
+  {id:"hardofhearing", name:"Hard of Hearing", cost:-4, desc:"Smaller perception and hearing radius.", excl:["deaf","keenhearing"]},
+  {id:"heartyappetite", name:"Hearty Appetite", cost:-4, desc:"Needs to eat more regularly.", excl:["lighteater","veryunderweight"]},
+  {id:"hemophobic", name:"Fear of Blood", cost:-5, desc:"Panic performing first aid. Stressed when bloody.", excl:["desensitized"]},
+  {id:"illiterate", name:"Illiterate", cost:-10, desc:"Cannot read any books or in-world text.", excl:["fastreader","slowreader"]},
+  {id:"insomniac", name:"Restless Sleeper", cost:-6, desc:"Slow loss of tiredness while sleeping."},
+  {id:"needsmoresleep", name:"Sleepyhead", cost:-4, desc:"Needs more sleep.", excl:["needslesssleep"]},
+  {id:"outofshape", name:"Out of Shape", cost:-6, desc:"Low endurance and endurance regeneration.", xp:{Fitness:-2}, excl:["athletic","fit","unfit"]},
+  {id:"pacifist", name:"Reluctant Fighter", cost:-5, desc:"Decreased combat XP gains."},
+  {id:"pronetoillness", name:"Prone to Illness", cost:-4, desc:"More prone to disease. Faster zombification.", excl:["resilient"]},
+  {id:"shortsighted", name:"Short Sighted", cost:-2, desc:"Smaller view distance.", excl:["eagleeyed"]},
+  {id:"slowhealer", name:"Slow Healer", cost:-3, desc:"Recovers slowly from injuries and illness.", excl:["fasthealer"]},
+  {id:"slowreader", name:"Slow Reader", cost:-2, desc:"Takes longer to read.", excl:["fastreader","illiterate"]},
+  {id:"slowlearner", name:"Slow Learner", cost:-6, desc:"Decreased XP gains.", excl:["crafty","fastlearner"]},
+  {id:"smoker", name:"Smoker", cost:-3, desc:"Unhappiness rises when tobacco isn't smoked.", excl:["athletic"]},
+  {id:"sundaydriver", name:"Sunday Driver", cost:-1, desc:"Drives very slow.", excl:["speeddemon"]},
+  {id:"thinskinned", name:"Thin-skinned", cost:-8, desc:"Higher chance of being scratched or bitten."},
+  {id:"unfit", name:"Unfit", cost:-10, desc:"Very low endurance and regeneration.", xp:{Fitness:-4}, excl:["athletic","fit","outofshape"]},
+  {id:"weak", name:"Puny", cost:-10, desc:"Far less knockback. Extremely small carrying weight.", xp:{Strength:-5}, excl:["feeble","stout","strong"]},
+  {id:"weakstomach", name:"Weak Stomach", cost:-2, desc:"Higher chance to have food illness.", excl:["irongut"]},
+  {id:"weightgain", name:"Slow Metabolism", cost:-2, desc:"Permanent tendency to gain weight.", excl:["weightloss"], grants:["overweight"]},
+  {id:"weightloss", name:"Fast Metabolism", cost:-2, desc:"Permanent tendency to lose weight.", excl:["weightgain"], grants:["underweight"]},
+  {id:"highthirst", name:"High Thirst", cost:-2, desc:"Needs more water to survive.", excl:["lowthirst"]},
+];
+
+// ---- JOST training traits ----
+const JOST_TRAITS = [
+  {id:"JOST:BoostedTraining", mode:"boosted", name:"Experienced", cost:2,
+   desc:"Stronger head start: 1 pip→lvl 3, 2→5, 3→7, 4+→9. Cap is unaffected.",
+   excl:["JOST:NormalTraining","JOST:HalfTraining","JOST:NoTraining"]},
+  {id:"JOST:NormalTraining", mode:"normal", name:"Self Taught", cost:-2,
+   desc:"Vanilla behaviour: starting level exactly equals pips (uncapped, e.g. 4 pips→lvl 4).",
+   excl:["JOST:BoostedTraining","JOST:HalfTraining","JOST:NoTraining"]},
+  {id:"JOST:HalfTraining", mode:"half", name:"Unfinished Education", cost:-4,
+   desc:"Half of Self Taught's level, rounded down (1 pip→lvl 0, 4 pips→lvl 2).",
+   excl:["JOST:BoostedTraining","JOST:NormalTraining","JOST:NoTraining"]},
+  {id:"JOST:NoTraining", mode:"none", name:"Blank Slate", cost:-6,
+   desc:"Every trade skill starts at level 0, no matter your pips. Cap is unaffected.",
+   excl:["JOST:BoostedTraining","JOST:NormalTraining","JOST:HalfTraining"]},
+];
+
+// ---- Somewhat Traits (no numeric XP effects; cost + gameplay effect only) ----
+const SOMEWHAT_POS = [
+  {id:"SWAdaptiveMetabolism", name:"Adaptive Metabolism", cost:5, desc:"Adjusts calorie burn rate when near unhealthy weight."},
+  {id:"SWBouncer", name:"Bouncer", cost:4, desc:"Slows down endurance loss during a fight."},
+  {id:"SWCompanion", name:"Companion", cost:3, desc:"Reduces unhappiness/stress with a Frog, Slug or Snail companion in your inventory."},
+  {id:"SWCompetitiveEater", name:"Competitive Eater", cost:4, desc:"Twice as fast food and drink consumption actions."},
+  {id:"SWCouchDweller", name:"Couch Dweller", cost:2, desc:"Reduces unhappiness, slows boredom gain, when indoors."},
+  {id:"SWImmuneResponse", name:"Immune Response", cost:4, desc:"Improves endurance recovery while infected, based on Sickness moodle level."},
+  {id:"SWIronLiver", name:"Iron Liver", cost:3, desc:"Stays drunk for less time; no fatigue from alcohol."},
+  {id:"SWManiac", name:"Maniac", cost:4, desc:"Reduces unhappiness and stress when bloody."},
+  {id:"SWPacer", name:"Pacer", cost:4, desc:"Slows down endurance loss when running or sprinting."},
+  {id:"SWParamedic", name:"Paramedic", cost:5, desc:"Twice as fast first aid actions."},
+  {id:"SWPitCrew", name:"Pit Crew", cost:5, desc:"Twice as fast vehicle and refueling actions."},
+  {id:"SWProductive", name:"Productive", cost:5, desc:"Twice as fast crafting, tailoring and consolidation actions."},
+  {id:"SWSloth", name:"Sloth", cost:2, desc:"Slows down fatigue gain while walking or standing still.", excl:["SWSquirrel"]},
+  {id:"SWSprintDemon", name:"Sprint Demon", cost:1, desc:"Sprinting reduces stress and unhappiness.", excl:["SWSundayRunner"]},
+  {id:"SWSquirrel", name:"Squirrel", cost:2, desc:"Slows down fatigue gain when running or sprinting.", excl:["SWSloth"]},
+  {id:"SWTrekker", name:"Trekker", cost:4, desc:"Improves endurance recovery while walking or standing still."},
+];
+const SOMEWHAT_NEG = [
+  {id:"SWAcrophobic", name:"Acrophobic", cost:-3, desc:"Height causes stress, especially outside."},
+  {id:"SWBrittle", name:"Brittle", cost:-6, desc:"High chance of hand/foot fracture from falling, based on Nimble level."},
+  {id:"SWColdSensitive", name:"Cold Sensitive", cost:-2, desc:"Being cold increases stress, based on Hypothermia moodle level."},
+  {id:"SWDrunkard", name:"Drunkard", cost:-3, desc:"Stays drunk longer; chance to drop weapon when not drunk, based on Endurance moodle level."},
+  {id:"SWFlailer", name:"Flailer", cost:-4, desc:"Chance to trip and scream when running, based on Panic moodle level."},
+  {id:"SWFlatEarther", name:"Flat-earther", cost:-4, desc:"Can't use map/minimap (can still read map items)."},
+  {id:"SWFlimsy", name:"Flimsy", cost:-4, desc:"Heavy backpacks cause upper-arm pain, slowing attack speed."},
+  {id:"SWHeatSensitive", name:"Heat Sensitive", cost:-2, desc:"Being hot increases stress, based on Hyperthermia moodle level."},
+  {id:"SWInjured", name:"Injured", cost:-4, desc:"Spawns with a fracture in a random lower body part."},
+  {id:"SWLuddite", name:"Luddite", cost:-4, desc:"Equipping guns causes stress, based on Aiming level."},
+  {id:"SWLurcher", name:"Lurcher", cost:-5, desc:"Chance to trip when running exhausted, based on Nimble/Endurance."},
+  {id:"SWOneTrickPony", name:"One Trick Pony", cost:-4, desc:"Your highest weapon skill becomes the only weapon type you can equip (melee only)."},
+  {id:"SWRavenous", name:"Ravenous", cost:-2, desc:"Hunger causes pain, based on Hunger moodle level."},
+  {id:"SWScaredycat", name:"Scaredy-cat", cost:-3, desc:"Chance to scream, scaling with nearby zombie count."},
+  {id:"SWSundayRunner", name:"Sunday Runner", cost:-1, desc:"Sprinting increases stress and unhappiness.", excl:["SWSprintDemon"]},
+  {id:"SWVehophobic", name:"Vehophobic", cost:-6, desc:"Can't enter vehicles."},
+];
+
+/* ================= STATE ================= */
+const state = {
+  profession: "unemployed",
+  selected: new Set(), // trait ids from any of the three sources, mixed together
+  budget: 16,
+};
+
+const byId = {};
+[...VANILLA_TRAITS, ...JOST_TRAITS, ...SOMEWHAT_POS, ...SOMEWHAT_NEG].forEach(t=>byId[t.id]=t);
+const profById = {}; PROFESSIONS.forEach(p=>profById[p.id]=p);
+
+// Positive/negative pools, each source tagged so the card can show it —
+// merged into one list per cost sign rather than kept in separate sections.
+const tagged = (arr, source) => arr.map(t=>Object.assign({}, t, {source}));
+const byCostAsc = (a,b)=> a.cost-b.cost || a.name.localeCompare(b.name);
+const byCostDesc = (a,b)=> b.cost-a.cost || a.name.localeCompare(b.name);
+const ALL_POS = [
+  ...tagged(VANILLA_TRAITS.filter(t=>t.cost>0), "Vanilla"),
+  ...tagged(JOST_TRAITS.filter(t=>t.cost>0), "JOST"),
+  ...tagged(SOMEWHAT_POS, "Somewhat"),
+].sort(byCostAsc);
+const ALL_NEG = [
+  ...tagged(VANILLA_TRAITS.filter(t=>t.cost<=0), "Vanilla"),
+  ...tagged(JOST_TRAITS.filter(t=>t.cost<=0), "JOST"),
+  ...tagged(SOMEWHAT_NEG, "Somewhat"),
+].sort(byCostDesc);
+
+function activeTraitObjects(){
+  const list = [];
+  state.selected.forEach(id=>list.push(byId[id]));
+  return list;
+}
+function activeIdSet(){
+  // includes granted (hidden) trait ids, for exclusion-checking
+  const s = new Set();
+  const prof = profById[state.profession];
+  if(prof && prof.grants) prof.grants.forEach(g=>s.add(g));
+  activeTraitObjects().forEach(t=>{
+    s.add(t.id);
+    if(t.grants) t.grants.forEach(g=>s.add(g));
+  });
+  return s;
+}
+function currentTrainingMode(){
+  const picked = JOST_TRAITS.find(t=>state.selected.has(t.id));
+  return picked ? picked.mode : "default";
+}
+
+// Vanilla's actual formula (CharacterCreationProfession.lua): total pool =
+// SandboxVars.CharacterFreePoints + profession:getCost() -- profession cost
+// is added straight to the pool, not "spent" the way trait costs are. Only
+// traits get subtracted from that pool.
+function totalBudget(){
+  const prof = profById[state.profession];
+  return state.budget + (prof ? prof.cost : 0);
+}
+function spentPoints(){
+  let spent = 0;
+  activeTraitObjects().forEach(t=> spent += t.cost);
+  return spent;
+}
+
+function pipsFor(perk){
+  const prof = profById[state.profession];
+  let n = (prof && prof.xp && prof.xp[perk]) || 0;
+  if(prof && prof.grants) prof.grants.forEach(gid=>{
+    const g = HIDDEN_TRAITS[gid];
+    if(g && g.xp && g.xp[perk]) n += g.xp[perk];
+  });
+  activeTraitObjects().forEach(t=>{
+    if(t.xp && t.xp[perk]) n += t.xp[perk];
+    if(t.grants) t.grants.forEach(gid=>{
+      const g = HIDDEN_TRAITS[gid];
+      if(g && g.xp && g.xp[perk]) n += g.xp[perk];
+    });
+  });
+  return Math.max(0, Math.min(10, n));
+}
+
+/* ================= RENDER ================= */
+
+function costClass(cost){ return cost>0?"pos":cost<0?"neg":"zero"; }
+function fmtCost(cost){ return (cost>0?"+":"")+cost; }
+
+function renderProfessionSelect(){
+  const sel = document.getElementById("profSelect");
+  sel.innerHTML = PROFESSIONS.map(p=>
+    `<option value="${p.id}">${p.name} (${fmtCost(p.cost)})</option>`
+  ).join("");
+  sel.value = state.profession;
+  sel.onchange = ()=>{ state.profession = sel.value; renderAll(); };
+}
+
+function renderProfDesc(){
+  const prof = profById[state.profession];
+  document.getElementById("profDesc").textContent = prof.desc || "No special description — read by its skill boosts below.";
+  const xpWrap = document.getElementById("profXp");
+  const poolNote = prof.cost > 0
+    ? `<span class="xp-chip" style="color:var(--olive-ink)">adds ${fmtCost(prof.cost)} to point pool</span>`
+    : prof.cost < 0
+    ? `<span class="xp-chip" style="color:var(--rust-ink)">costs ${Math.abs(prof.cost)} from point pool</span>`
+    : `<span class="xp-chip">no effect on point pool</span>`;
+  const chips = [poolNote, ...Object.entries(prof.xp||{}).map(([k,v])=>`<span class="xp-chip">${skillLabel(k)} ${fmtCost(v)}</span>`)];
+  if(prof.grants) prof.grants.forEach(g=>{
+    const h = HIDDEN_TRAITS[g];
+    if(h) chips.push(`<span class="xp-chip">grants ${h.name}</span>`);
+  });
+  xpWrap.innerHTML = chips.join("");
+}
+
+function renderBudget(){
+  const budgetInput = document.getElementById("budgetInput");
+  state.budget = Math.max(0, parseInt(budgetInput.value||"0",10));
+  const total = totalBudget();
+  const spent = spentPoints();
+  const remain = total - spent;
+  const pct = total>0 ? Math.min(100, Math.max(0,(spent/total)*100)) : (spent>0?100:0);
+  const bar = document.getElementById("budgetBar");
+  bar.classList.toggle("over", remain<0);
+  bar.querySelector("i").style.width = pct+"%";
+  document.getElementById("spentOut").textContent = spent+" / "+total;
+  const ro = document.getElementById("remainOut");
+  ro.textContent = (remain<0? Math.abs(remain)+" over" : remain+" left");
+  ro.className = "remaining mono " + (remain<0?"neg":"pos");
+
+  const readout = document.getElementById("trainingReadout");
+  const trainingId = JOST_TRAITS.find(t=>state.selected.has(t.id));
+  if(trainingId){
+    readout.innerHTML = `Training: <b>${trainingId.name}</b> — ${trainingId.desc}`;
+  } else {
+    readout.innerHTML = "No training trait picked — the server's built-in starting-level boost still applies by default: <b>1 pip&nbsp;→&nbsp;level 2, 2&nbsp;→&nbsp;4, 3&nbsp;→&nbsp;6, 4+&nbsp;→&nbsp;7</b>. That's already ahead of raw vanilla (where level would just equal your pip count) — picking <b>Experienced</b> pushes it further still; picking <b>Self Taught</b> is what removes the boost and drops you to vanilla's pip-for-pip rate.";
+  }
+}
+
+function canAfford(cost){
+  if(cost<=0) return true;
+  const remain = totalBudget() - spentPoints();
+  return cost <= remain;
+}
+
+function renderGrid(gridId, countId, items){
+  const grid = document.getElementById(gridId);
+  const active = activeIdSet();
+  grid.innerHTML = "";
+  let selectedCount = 0;
+
+  items.forEach(item=>{
+    const isSelected = state.selected.has(item.id);
+    if(isSelected) selectedCount++;
+
+    const conflictId = (item.excl||[]).find(x=> active.has(x) && x!==item.id);
+    const conflictName = conflictId ? (byId[conflictId]?.name || HIDDEN_TRAITS[conflictId]?.name || conflictId) : null;
+    const unaffordable = !isSelected && !canAfford(item.cost);
+    const disabled = !isSelected && (conflictId || unaffordable);
+
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "card" + (isSelected?" selected":"") + (item.cost<0?" neg-cost":"") + (disabled?" disabled":"");
+    card.disabled = disabled;
+
+    const xpChips = Object.entries(item.xp||{}).map(([k,v])=>`<span>${skillLabel(k)} ${fmtCost(v)}</span>`).join("");
+    let reason = "";
+    if(conflictId) reason = "conflicts: "+conflictName;
+    else if(unaffordable) reason = "needs "+item.cost+" pts";
+
+    card.innerHTML = `
+      <div class="head"><span class="name">${item.name}</span><span class="cost ${costClass(item.cost)}">${fmtCost(item.cost)}</span></div>
+      <span class="src-tag${item.source==='JOST'?' jost':''}">${item.source}</span>
+      ${item.desc?`<div class="desc">${item.desc}</div>`:""}
+      ${xpChips?`<div class="xp">${xpChips}</div>`:""}
+      <div class="reason">${reason}</div>
+    `;
+    card.addEventListener("click", ()=>{
+      if(isSelected) state.selected.delete(item.id); else state.selected.add(item.id);
+      renderAll();
+    });
+    grid.appendChild(card);
+  });
+
+  document.getElementById(countId).textContent = `${selectedCount} selected · ${items.length} total`;
+}
+
+function renderResults(){
+  const wrap = document.getElementById("resultsWrap");
+  const mode = currentTrainingMode();
+  let html = "";
+  TRADE_GROUPS.forEach(group=>{
+    html += `<div class="results-group"><h3>${group.label}</h3><table class="results">
+      <tr><th>Skill</th><th class="num">Pips</th><th class="num">Cap</th><th class="num">Start Lv</th></tr>`;
+    group.perks.forEach(perk=>{
+      const pips = pipsFor(perk);
+      const base = baseCap(pips);
+      // JOST_SkillCalc.computeEffectiveCap: +1 for EVERY linked perk with
+      // >=1 pip (stacks), then clamp to VANILLA_MAX_LEVEL (10).
+      const qualifying = (LINKS[perk]||[]).filter(l=>pipsFor(l)>=1);
+      const cap = Math.min(10, base + qualifying.length);
+      const lvl = startLevel(pips, mode);
+      const linkTag = qualifying.length>0 ? `<span class="link">+${qualifying.length} link${qualifying.length>1?'s':''}</span>` : '';
+      html += `<tr class="${pips>0?'has-pips':''}">
+        <td>${skillLabel(perk)}</td>
+        <td class="num pips">${pips}</td>
+        <td class="num cap">${cap}${linkTag}</td>
+        <td class="num lvl">${lvl}</td>
+      </tr>`;
+    });
+    html += `</table></div>`;
+  });
+  wrap.innerHTML = html;
+}
+
+function renderAll(){
+  renderProfDesc();
+  renderBudget();
+  renderGrid("grid-pos","cnt-pos", ALL_POS);
+  renderGrid("grid-neg","cnt-neg", ALL_NEG);
+  renderResults();
+  // re-render budget after grids (grid disable logic reads budget, budget doesn't read grids, order is fine but
+  // selection changes need a second pass so 'remaining' reflects the very latest state before disabled-calc)
+  renderBudget();
+}
+
+renderProfessionSelect();
+document.getElementById("budgetInput").addEventListener("input", renderAll);
+
+/* theme toggle */
+const themeBtns = document.querySelectorAll("#themeToggle button");
+themeBtns.forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const t = btn.dataset.t;
+    if(t==="system") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", t);
+    themeBtns.forEach(b=>b.classList.toggle("active", b===btn));
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>
