@@ -325,7 +325,7 @@ LINKED_PAIRS.forEach(([a,b])=>{ LINKS[a].push(b); LINKS[b].push(a); });
 // JOST formulas (mod defaults; a server that retunes its sandbox will drift from these)
 function baseCap(pips){
   if(pips>=4) return 10;
-  return [3,5,7,9][pips] ?? 3;
+  return [5,6,7,8][pips] ?? 5;
 }
 function startLevel(pips, mode){
   if(mode==="none") return 0;
